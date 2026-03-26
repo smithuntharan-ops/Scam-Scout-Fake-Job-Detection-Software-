@@ -136,4 +136,32 @@ def _compile_rules() -> List[Rule]:
             suggestions=("Confirm salary ranges and tax/benefits details with the employer’s official HR contact.",),
             keywords=("salary", "compensation", "earn $"),
         ),
+        Rule(
+            rule_id="training_or_course_fee",
+            title="Pays for training / course fees",
+            description="Scams may ask candidates to pay for training, onboarding, or materials before employment.",
+            points=20,
+            patterns=(
+                r"\btraining\s*fee\b",
+                r"\bcourse\s*fee\b",
+                r"\bpay\s*for\s*training\b",
+                r"\bpay\s*to\s*start\b",
+                r"\bmaterials\s*fee\b",
+                r"\bonboarding\s*fee\b",
+            ),
+            suggestions=("Legitimate training is normally paid by the employer; avoid paying fees to start.",),
+            keywords=("training fee", "course fee", "materials fee"),
+        ),
+        Rule(
+            rule_id="generic_email_domain",
+            title="Generic or mismatched email",
+            description="Legit companies usually use their own domain; generic inboxes can be a warning signal.",
+            points=7,
+            patterns=(
+                r"\b[\w\.-]+@(gmail|yahoo|outlook|hotmail)\.com\b",
+                r"\bcontact@(gmail|yahoo|outlook|hotmail)\.com\b",
+            ),
+            suggestions=("Verify the sender and domain; look up the company’s official email format.",),
+            keywords=("gmail.com", "outlook.com", "hotmail.com"),
+        ),
     ]
