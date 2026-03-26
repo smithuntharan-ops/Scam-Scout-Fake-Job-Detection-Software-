@@ -15,7 +15,8 @@ class Rule:
 
 
 def _compile_rules() -> List[Rule]:
-
+    # These are intentionally conservative heuristics designed to be explainable.
+    # They aim to catch common scam behaviors, not to blacklist legitimate offers.
     return [
         Rule(
             rule_id="gift_cards_or_wire",
@@ -87,8 +88,54 @@ def _compile_rules() -> List[Rule]:
                 r"\bguaranteed\s*(job|employment)\b",
                 r"\bno\s*experience\s*required\b",
             ),
+            suggestions=(
+                "Be skeptical of hiring processes that bypass interviews and standard checks.",
+                "Research the company and look for consistent employment signals (team, location, benefits).",
+            ),
+            keywords=("instant offer", "guaranteed job", "no experience required"),
+        ),
+        Rule(
+            rule_id="too_good_to_be_true",
+            title="Unrealistic promises",
+            description="Overly positive guarantees like '100%' or 'risk-free' can indicate scams.",
+            points=10,
+            patterns=(
+                r"\b100\s*%\b",
+                r"\brisk[-\s]*free\b",
+                r"\bhigh\s*income\b",
+                r"\bguaranteed\s*income\b",
+                r"\boutstanding\s*pay\b",
+            ),
+            suggestions=("Treat extreme guarantees as a red flag; verify compensation and requirements.",),
+            keywords=("100%", "risk-free", "guaranteed income"),
+        ),
+        Rule(
+            rule_id="work_from_home_no_experience",
+            title="Remote + no experience angle",
+            description="A common scam pattern is remote work plus claims of needing no experience.",
+            points=13,
+            patterns=(
+                r"\bwork\s*from\s*home\b",
+                r"\bremote\b",
+                r"\bno\s*experience\b",
+                r"\btrain\s*you\b",
+            ),
+            suggestions=(
+                "Remote jobs can be real, but scams often bundle 'no experience' and rapid onboarding.",
+            ),
+            keywords=("work from home", "remote", "no experience"),
+        ),
+        Rule(
+            rule_id="unusual_salary_bands",
+            title="Suspicious compensation wording",
+            description="Certain salary formats and unusually broad numbers can correlate with scams.",
+            points=14,
+            patterns=(
+                r"(?:\bcompensation\b|\bsalary\b).{0,40}\$\s?\d{2,3}(?:[,\d]{0,3})+(?:\s*(?:/)?\s*(?:month|year|week))?",
+                r"\$\s?\d{2,3}(?:[,\d]{0,3})\s*(?:/)?\s*(?:month|year|week)",
+                r"\b(?:earn|income)\s*\$\s?\d{2,3}(?:[,\d]{0,3})\b",
+            ),
+            suggestions=("Confirm salary ranges and tax/benefits details with the employer’s official HR contact.",),
+            keywords=("salary", "compensation", "earn $"),
         ),
     ]
-
-
-#tests
