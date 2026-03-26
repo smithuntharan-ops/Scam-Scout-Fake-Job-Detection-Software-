@@ -15,8 +15,6 @@ class Rule:
 
 
 def _compile_rules() -> List[Rule]:
-    # These are intentionally conservative heuristics designed to be explainable.
-    # They aim to catch common scam behaviors, not to blacklist legitimate offers.
     return [
         Rule(
             rule_id="gift_cards_or_wire",
